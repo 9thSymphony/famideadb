@@ -5,10 +5,26 @@ export const Register = (props) => {
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
 
-    const handleSubmit = (e) => {
+    /* const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email);
-    }
+    } */
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.get('http://192.168.254.103:3000/users/add' , {
+                params: {
+                    "fullname": fullname,
+                    "email": email,
+                    "password": password 
+                }
+            });
+
+            Alert.alert(response.data);
+        } catch (error) {
+            Alert.alert("An error has occured" + error);
+        }
+    };
 
     return (
         <div className="auth-form-container">
@@ -23,7 +39,7 @@ export const Register = (props) => {
             <label htmlFor="password">Password</label>
             <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
             
-            <button type="submit">Log In</button>
+            <button type="submit">Sign up</button>
         </form>
         <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Login here.</button>
     </div>
